@@ -46,7 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #my app
     'khodro45_app',
-    'User'
+    'User',
+    'rest_framework'
+    
+
 ]
 
 MIDDLEWARE = [

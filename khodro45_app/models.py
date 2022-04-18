@@ -63,6 +63,9 @@ class Auction(models.Model):
     created_time = models.DateTimeField(auto_created=True)
     modified_time = models.DateTimeField(auto_now_add=True)
 
+
+       
+
     def __str__(self):
         return f"{self.bider}  with The final price:{self.start_price}"
 
