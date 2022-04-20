@@ -13,6 +13,6 @@ router.register(r'brand', BrandViewSet)
 
 
 urlpatterns = [
-    # path('branddetail/$',BrandDetailView.as_view(),name='branddetail' ),
+   
     
 ]+router.urls 

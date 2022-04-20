@@ -2,7 +2,9 @@ asgiref==3.5.0
 astroid==2.11.2
 backports.zoneinfo==0.2.1
 dill==0.3.4
-Django==3.0
+Django==4.0
+django-advanced-filters==1.4.0
+djangorestframework==3.13.1
 isort==5.10.1
 lazy-object-proxy==1.7.1
 mccabe==0.7.0
@@ -13,6 +15,7 @@ pycparser==2.21
 pylint==2.13.5
 python-dotenv==0.20.0
 pytz==2022.1
+simplejson==3.17.6
 sqlparse==0.4.2
 tomli==2.0.1
 typing_extensions==4.1.1
