@@ -1,30 +1,70 @@
-
 from rest_framework import serializers
-from khodro45_app.models import Brand
+from User.models import Bider
+from khodro45_app.models import Auction, Brand, Bid
+
 
 class BrandListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='brand-detail', format=None)
 
     class Meta:
         model = Brand
-        fields = ['id','title','created_time','url']  
-    
+        fields = ['id', 'title', 'created_time', 'url']
 
-class BrandDetailtSerializer(serializers.ModelSerializer):
- 
+    def to_internal_value(self, data):
+        title = data.get('title')
+        if len(title) > 10:
+            raise serializers.ValidationError({
+                'title': 'May not be more than 10 characters.'})
+        return {'title': title}
 
+
+class BrandDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = "__all__"
 
 
-class BrandUpadateSerializer(serializers.ModelSerializer):
-    
+serializer = BrandDetailSerializer()
+print(repr(serializer))
+
+
+class BrandUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = ['title', 'created_time']
         extra_kwargs = {
-            'created_time':{ 'read_only' : True}
+            'created_time': {'read_only': True}
         }
 
 
+class BidSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bid
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['bider'] = instance.bider.username
+
+        return representation
+
+
+class AuctionSerializers(serializers.ModelSerializer):
+    # bider = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Auction
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        bidder = Bid.objects.filter(auction=instance.id)
+        bid_serilizare = BidSerializer(bidder, many=True)
+        representation['bider'] = bid_serilizare.data
+        return representation
+
+    # def get_bider(self, instance):
+    #     bidder = instance.winner.all()
+    #     # bidder = Bid.objects.filter(auction=instance.id)
+    #     bid_serilizare = BidSerializer(bidder, many=True)
+    #     return bid_serilizare.data

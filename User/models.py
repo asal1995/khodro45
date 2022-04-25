@@ -7,12 +7,7 @@ from .managers import CustomUserManager
 class User(AbstractUser):
     """customize django user model"""
 
-    email = models.EmailField("email address", unique=True)
-
-    USERNAME_FIELD = "username"
-    EMAIL_FIELD = "email"
-    REQUIRED_FIELDS = ["email"]
-    objects = CustomUserManager()
+ 
 
     def __str__(self):
         return self.username

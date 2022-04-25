@@ -1,4 +1,3 @@
-
 from django.db import models
 
 from User.models import Bider, Customer
@@ -15,7 +14,6 @@ class Brand(models.Model):
 
 
 class Appointment(models.Model):
-
     brand = models.ForeignKey("Brand", on_delete=models.CASCADE, related_name="brand")
     customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, related_name="customer"
@@ -24,7 +22,6 @@ class Appointment(models.Model):
     modified_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-
         return f"{self.customer.username}"
 
 
@@ -35,7 +32,7 @@ class Inspection(models.Model):
     appointmet = models.ForeignKey(
         "Appointment", on_delete=models.CASCADE, related_name="appointment"
     )
-    
+
     created_time = models.DateTimeField(auto_created=True)
     modified_time = models.DateTimeField(auto_now_add=True)
 
@@ -44,9 +41,9 @@ class Inspection(models.Model):
 
 
 class Bid(models.Model):
-
+    price = models.IntegerField(default=1)
     bider = models.ForeignKey(Bider, on_delete=models.CASCADE, related_name="bider")
-   
+    auction = models.ForeignKey("Auction", on_delete=models.CASCADE, related_name="winner")
     created_time = models.DateTimeField(auto_created=True)
     modified_time = models.DateTimeField(auto_now_add=True)
 
@@ -55,17 +52,10 @@ class Bid(models.Model):
 
 
 class Auction(models.Model):
+
     start_price = models.PositiveBigIntegerField()
-
     inspection = models.ForeignKey("Inspection", on_delete=models.CASCADE)
-    bider = models.ForeignKey("Bid", on_delete=models.CASCADE, related_name="winner")
-
     created_time = models.DateTimeField(auto_created=True)
     modified_time = models.DateTimeField(auto_now_add=True)
 
-
-       
-
-    def __str__(self):
-        return f"{self.bider}  with The final price:{self.start_price}"
 

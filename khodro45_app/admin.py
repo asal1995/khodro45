@@ -51,7 +51,7 @@ class BidFilter(admin.SimpleListFilter):
 @admin.register(Auction)
 class AuctionAdmin(admin.ModelAdmin):
 
-    list_display = ("id","start_price","bider","bider_id","inspection","modified_time")
+    list_display = ("id","start_price","inspection","modified_time")
     list_filter = ("start_price","modified_time",BidFilter)
 
 
@@ -59,7 +59,7 @@ class AuctionAdmin(admin.ModelAdmin):
 @admin.register(Bid)
 class BidAdmin(admin.ModelAdmin):
     
-    list_display = ("id","bider","modified_time")
+    list_display = ("id","bider","modified_time",'auction')
     list_filter = ("bider","modified_time")
 
 # class BidAdAdminFilter(AdminAdvancedFiltersMixin, admin.ModelAdmin):
