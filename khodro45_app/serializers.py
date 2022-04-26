@@ -50,11 +50,12 @@ class BidSerializer(serializers.ModelSerializer):
 
 
 class AuctionSerializers(serializers.ModelSerializer):
-    # bider = serializers.SerializerMethodField()
+    # bidder = serializers.SerializerMethodField()
 
     class Meta:
         model = Auction
         fields = '__all__'
+        validators = []
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -63,8 +64,13 @@ class AuctionSerializers(serializers.ModelSerializer):
         representation['bider'] = bid_serilizare.data
         return representation
 
-    # def get_bider(self, instance):
-    #     bidder = instance.winner.all()
-    #     # bidder = Bid.objects.filter(auction=instance.id)
-    #     bid_serilizare = BidSerializer(bidder, many=True)
-    #     return bid_serilizare.data
+    def validate(self, data):
+
+        start_price = data.get('start_price')
+        if int(start_price) <= 50:
+            raise serializers.ValidationError('The price must be more than 50')
+
+        return super().validate(data)
+
+
+
